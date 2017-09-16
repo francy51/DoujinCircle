@@ -10,18 +10,21 @@ public class Character
     [SerializeField]
     int age;
     [SerializeField]
-    string description;
+    List<GameText> languages;
     [SerializeField]
-    List<Texture2D> poses;
+    List<Sprite> poses;
     [SerializeField]
     int gender;
+    [SerializeField]
+    string japaneseName;
 
     public Character()
     {
         age = 0;
         characterName = "";
-        description = "";
-        poses = new List<Texture2D>();
+        Languages = new List<GameText>();
+        JapaneseName = "";
+        poses = new List<Sprite>();
         gender = 0;
     }
 
@@ -50,21 +53,9 @@ public class Character
             age = value;
         }
     }
+    
 
-    public string Description
-    {
-        get
-        {
-            return description;
-        }
-
-        set
-        {
-            description = value;
-        }
-    }
-
-    public List<Texture2D> Poses
+    public List<Sprite> Poses
     {
         get
         {
@@ -87,6 +78,32 @@ public class Character
         set
         {
             gender = value;
+        }
+    }
+
+    public List<GameText> Languages
+    {
+        get
+        {
+            return languages;
+        }
+
+        set
+        {
+            languages = value;
+        }
+    }
+
+    public string JapaneseName
+    {
+        get
+        {
+            return japaneseName;
+        }
+
+        set
+        {
+            japaneseName = value;
         }
     }
 }

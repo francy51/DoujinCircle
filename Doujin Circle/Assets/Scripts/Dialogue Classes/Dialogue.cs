@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dialogue : MonoBehaviour, IDialogue
+public class Dialogue : IDialogue
 {
 
     int id;
@@ -12,6 +12,7 @@ public class Dialogue : MonoBehaviour, IDialogue
     Character character;
     Dialogue[] choices;
     Dialogue[] continuation;
+    Sprite displayedPose;
 
     public int ID
     {
@@ -101,6 +102,19 @@ public class Dialogue : MonoBehaviour, IDialogue
         set
         {
             continuation = value;
+        }
+    }
+
+    public Sprite DisplayedPose
+    {
+        get
+        {
+            return displayedPose;
+        }
+
+        set
+        {
+            displayedPose = value;
         }
     }
 }

@@ -47,6 +47,12 @@ public interface IDialogue
         set;
     }
 
+    Sprite DisplayedPose
+    {
+        get;
+        set;
+    }
+
 
 
 }
