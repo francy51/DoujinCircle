@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class ParticleManager : MonoBehaviour
 {
+    
 
     ParticleSystem ps;
     [SerializeField]
@@ -42,6 +44,7 @@ public class ParticleManager : MonoBehaviour
     //each yield adds 100 more particles to the game so that we get the overlap effect
     IEnumerator startNewGame()
     {
+        GameObject.Find("FadeManager").GetComponent<FadeManager>().BeginFade(1);
         yield return new WaitForSeconds(1);
         particlesPerS += 100;
         ParticleIncreaseEffect();
