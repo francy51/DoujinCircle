@@ -35,13 +35,13 @@ public interface IDialogue
         set;
     }
 
-    Dialogue[] Choices
+    List<Dialogue> Choices
     {
         get;
         set;
     }
 
-    Dialogue[] Continuation
+    Dialogue Continuation
     {
         get;
         set;

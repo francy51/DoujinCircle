@@ -5,12 +5,23 @@ using UnityEditor;
 using System.IO;
 using System;
 
-public class DialogueTreeEditor : EditorWindow {
+public class DialogueTreeEditor : EditorWindow
+{
 
     List<DialogueTree> treeList;
     DialogueTree tempTree;
     Vector2 scrollList;
     SpecificDialogueEditor specDiagEditor;
+
+    Dialogue curDialogue;
+    List<DialogueNode> diagNodes;
+    List<int> windowsToAttach = new List<int>();
+    List<int> attachedWindows = new List<int>();
+
+    float panX = 0;
+    float panY = 0;
+
+
 
     bool editTree;
 
@@ -28,6 +39,7 @@ public class DialogueTreeEditor : EditorWindow {
 
     void OnEnable()
     {
+        diagNodes = new List<DialogueNode>();
         loadAllTrees();
     }
 
@@ -56,6 +68,10 @@ public class DialogueTreeEditor : EditorWindow {
             {
                 tempTree = new DialogueTree();
                 editTree = true;
+                diagNodes = new List<DialogueNode>();
+                windowsToAttach = new List<int>();
+                attachedWindows = new List<int>();
+
             }
             if (tempTree != null)
             {
@@ -69,35 +85,93 @@ public class DialogueTreeEditor : EditorWindow {
 
     }
 
+    void DrawNodeWindow(int id)
+    {
+        if (GUILayout.Button("Attach"))
+        {
+            windowsToAttach.Add(id);
+        }
+        diagNodes[id].Diag.Speech = EditorGUILayout.TextField("Speech:", diagNodes[id].Diag.Speech);
+
+        GUI.DragWindow();
+    }
+
+
+    void DrawNodeCurve(Rect start, Rect end)
+    {
+        Vector3 startPos = new Vector3(start.x + start.width, start.y + start.height / 2, 0);
+        Vector3 endPos = new Vector3(end.x, end.y + end.height / 2, 0);
+        Vector3 startTan = startPos + Vector3.right * 50;
+        Vector3 endTan = endPos + Vector3.left * 50;
+        Color shadowCol = new Color(0, 0, 0, 0.06f);
+
+        for (int i = 0; i < 3; i++)
+        {// Draw a shadow
+            Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * 5);
+        }
+
+        Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
+    }
+
     private void displayTreeInfo()
     {
         EditorGUILayout.BeginVertical();
+        GUILayout.BeginHorizontal();
+
         tempTree.SceneID = EditorGUILayout.IntField("ID given to scene by unity build manager: ", tempTree.SceneID);
         tempTree.SceneName = EditorGUILayout.TextField("Name given to the scene:", tempTree.SceneName);
+        GUILayout.BeginHorizontal();
         dialogueOptions();
+
         EditorGUILayout.EndVertical();
     }
 
     private void dialogueOptions()
     {
-        GUILayout.BeginHorizontal();
-
-        if (tempTree.StartDialogue == null)
+        //create a node 
+        if (GUILayout.Button("Create Dialgoue"))
         {
-            if (GUILayout.Button("Create New Dialogue"))
-            {
-                tempTree.StartDialogue = new Dialogue();
-                //after thats done start a new dialogue editor window for specific dialogue editing
-                // Get existing open window or if none, make a new one:
-             
+            diagNodes.Add(new DialogueNode(new Rect(Mathf.Abs(panX) + 50, Mathf.Abs(panY) + 50, 200, 200), new Dialogue()));
+        }
 
+        if (Event.current.rawType == EventType.mouseDrag && Event.current.button == 1)
+        {
+            panX += Event.current.delta.x;
+            panY += Event.current.delta.y;
+            Repaint();
+        }
+
+        GUI.BeginGroup(new Rect(panX, panY, 10000, 10000));
+
+
+
+        GUILayout.BeginHorizontal();
+        if (windowsToAttach.Count == 2)
+        {
+            attachedWindows.Add(windowsToAttach[0]);
+            attachedWindows.Add(windowsToAttach[1]);
+            windowsToAttach = new List<int>();
+        }
+
+        if (attachedWindows.Count >= 2)
+        {
+            for (int i = 0; i < attachedWindows.Count; i += 2)
+            {
+                DrawNodeCurve(diagNodes[attachedWindows[i]].Rect, diagNodes[attachedWindows[i + 1]].Rect);
             }
         }
-        else
+
+        BeginWindows();
+
+        for (int i = 0; i < diagNodes.Count; i++)
         {
-            //only show creation option if starting dialogue has not been set yet
+            diagNodes[i].Rect = GUI.Window(i, diagNodes[i].Rect, DrawNodeWindow, "Window " + i);
         }
- 
+
+        EndWindows();
+
+        GUI.EndGroup();
+
 
         GUILayout.EndHorizontal();
     }
@@ -119,7 +193,12 @@ public class DialogueTreeEditor : EditorWindow {
                 if (GUILayout.Button(t.SceneName))
                 {
                     tempTree = t;
+                    tempTree.Dialogues = t.Dialogues;
                     editTree = true;
+                    foreach (Dialogue d in tempTree.Dialogues)
+                    {
+                        diagNodes.Add(new DialogueNode(new Rect(panX, panY, 200, 200), d));
+                    }
                 }
             }
         }

@@ -6,7 +6,7 @@ public class DialogueTree : ITree {
 
     string sceneName;
     int sceneID;
-    Dialogue startDialogue;
+    List<Dialogue> dialogues;
 
     public string SceneName
     {
@@ -34,16 +34,16 @@ public class DialogueTree : ITree {
         }
     }
 
-    public Dialogue StartDialogue
+    public List<Dialogue> Dialogues
     {
         get
         {
-            return startDialogue;
+            return dialogues;
         }
 
         set
         {
-            startDialogue = value;
+            dialogues = value;
         }
     }
 }

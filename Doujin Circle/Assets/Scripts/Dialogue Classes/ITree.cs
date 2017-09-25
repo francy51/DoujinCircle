@@ -8,7 +8,7 @@ public interface ITree
 
     string SceneName { get; set; }
     int SceneID { get; set; }
-    Dialogue StartDialogue { get; set; }
+    List<Dialogue> Dialogues { get; set; }
 
 
 }

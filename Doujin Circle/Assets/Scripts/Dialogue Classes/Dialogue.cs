@@ -10,9 +10,15 @@ public class Dialogue : IDialogue
     string speech;
     AudioClip voiceOver;
     Character character;
-    Dialogue[] choices;
-    Dialogue[] continuation;
+    List<Dialogue> choices;
+    Dialogue continuation;
     Sprite displayedPose;
+
+    public Dialogue()
+    {
+        speech = "";
+
+    }
 
     public int ID
     {
@@ -79,7 +85,7 @@ public class Dialogue : IDialogue
         }
     }
 
-    public Dialogue[] Choices
+    public List<Dialogue> Choices
     {
         get
         {
@@ -92,7 +98,7 @@ public class Dialogue : IDialogue
         }
     }
 
-    public Dialogue[] Continuation
+    public Dialogue Continuation
     {
         get
         {
