@@ -4,54 +4,46 @@ using UnityEngine;
 
 public interface IDialogue
 {
-
+    [SerializeField]
     int ID
     {
         get;
         set;
     }
-
+    [SerializeField]
     bool HasChoices
     {
         get;
         set;
     }
-
-    string Speech
+    [SerializeField]
+    List<GameText> Speech
     {
         get;
         set;
     }
-
-    AudioClip VoiceOver
+    [SerializeField]
+    int Character
     {
         get;
         set;
     }
-
-    Character Character
+    [SerializeField]
+    List<int> Choices
     {
         get;
         set;
     }
-
-    List<Dialogue> Choices
+    [SerializeField]
+    int DisplayedPoseID
     {
         get;
         set;
     }
-
-    Dialogue Continuation
-    {
-        get;
-        set;
-    }
-
-    Sprite DisplayedPose
-    {
-        get;
-        set;
-    }
+    [SerializeField]
+    AudioClip SFX { get; set; }
+    [SerializeField]
+    DialogueActions Action { get; set; }
 
 
 

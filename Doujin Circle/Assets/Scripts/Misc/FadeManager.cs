@@ -14,6 +14,9 @@ public class FadeManager : MonoBehaviour
     private int fadeDir = -1;
 
 
+
+
+
     void Start()
     {
 

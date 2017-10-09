@@ -5,9 +5,11 @@ using UnityEngine;
 public interface ITree
 {
 
-
-    string SceneName { get; set; }
+    [SerializeField]
+    string TreeName { get; set; }
+    [SerializeField]
     int SceneID { get; set; }
+    [SerializeField]
     List<Dialogue> Dialogues { get; set; }
 
 

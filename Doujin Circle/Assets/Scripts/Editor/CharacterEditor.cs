@@ -69,6 +69,7 @@ public class CharacterEditor : EditorWindow
             GUILayout.Label("#" + tempCharacter.Languages.Count + " languages");
             //EditorGUILayout.EndScrollView();
 
+
             //work on loading textures
             scrollPoses = EditorGUILayout.BeginScrollView(scrollPoses);
             for (int i = 0; i < tempCharacter.Poses.Count; i++)

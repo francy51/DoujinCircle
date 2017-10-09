@@ -2,22 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Dialogue : IDialogue
 {
 
-    int id;
+    [SerializeField]
+    int id; // Do I need this can I use the list id instead??
+    [SerializeField]
     bool hasChoices;
-    string speech;
-    AudioClip voiceOver;
-    Character character;
-    List<Dialogue> choices;
-    Dialogue continuation;
-    Sprite displayedPose;
-
+    [SerializeField]
+    List<GameText> speech;
+    [SerializeField]
+    int character;
+    [SerializeField]
+    List<int> choices;
+    [SerializeField]
+    int displayedPoseID;
+    [SerializeField]
+    AudioClip sfx;
+    [SerializeField]
+    DialogueActions action;
+    
     public Dialogue()
     {
-        speech = "";
-
+        id = 0;
+        hasChoices = false;
+        speech = new List<GameText>();
+        choices = new List<int>();
+        action = DialogueActions.None;
     }
 
     public int ID
@@ -46,7 +58,7 @@ public class Dialogue : IDialogue
         }
     }
 
-    public string Speech
+    public List<GameText> Speech
     {
         get
         {
@@ -59,20 +71,9 @@ public class Dialogue : IDialogue
         }
     }
 
-    public AudioClip VoiceOver
-    {
-        get
-        {
-            return voiceOver;
-        }
 
-        set
-        {
-            voiceOver = value;
-        }
-    }
 
-    public Character Character
+    public int Character
     {
         get
         {
@@ -85,7 +86,7 @@ public class Dialogue : IDialogue
         }
     }
 
-    public List<Dialogue> Choices
+    public List<int> Choices
     {
         get
         {
@@ -98,29 +99,42 @@ public class Dialogue : IDialogue
         }
     }
 
-    public Dialogue Continuation
+    public int DisplayedPoseID
     {
         get
         {
-            return continuation;
+            return displayedPoseID;
         }
 
         set
         {
-            continuation = value;
+            displayedPoseID = value;
         }
     }
 
-    public Sprite DisplayedPose
+    public AudioClip SFX
     {
         get
         {
-            return displayedPose;
+            return sfx;
         }
 
         set
         {
-            displayedPose = value;
+            sfx = value;
+        }
+    }
+
+    public DialogueActions Action
+    {
+        get
+        {
+            return action;
+        }
+
+        set
+        {
+            action = value;
         }
     }
 }

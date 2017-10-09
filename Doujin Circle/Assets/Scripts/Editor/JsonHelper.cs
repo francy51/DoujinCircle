@@ -14,7 +14,7 @@ public class JsonHelper<T> where T : class
 
     public static void SaveToJson(T obj,string path)
     {
-        string json = JsonUtility.ToJson(obj);
+        string json = JsonUtility.ToJson(obj,true);
         File.WriteAllText(path, json);
     }
 

@@ -3726,9 +3726,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d99a0f906fdffb40b3cbaf3970833fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curTree: {fileID: 0}
+  curDialogue:
+    id: 0
+    hasChoices: 0
+    speech: 
+    voiceOver: {fileID: 0}
+    character:
+      characterName: 
+      age: 0
+      languages: []
+      poses: []
+      gender: 0
+      japaneseName: 
+    choices: 
+    displayedPose: {fileID: 0}
+  fadeMan: {fileID: 0}
+  responseNeeder: 0
+  displayingDialogue: 0
   characterName: {fileID: 1015049987}
   textArea: {fileID: 555345174}
-  dialogueArea: {fileID: 0}
+  dialogueArea: {fileID: 536022534}
 --- !u!114 &428168971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3858,7 +3876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &536022535
 RectTransform:
   m_ObjectHideFlags: 0
