@@ -21,7 +21,7 @@ public class DialogueEditor : EditorWindow
 
     //Used to visually display nodes attaching
     List<int> windowsToAttach = new List<int>();
-    List<int> attachedWindows = new List<int>();
+    List<Pairs> attachedWindows = new List<Pairs>();
 
     float panX, panY;
 
@@ -90,18 +90,27 @@ public class DialogueEditor : EditorWindow
         GUI.BeginGroup(new Rect(panX, panY, 100000, 100000));
         if (windowsToAttach.Count == 2)
         {
-            attachedWindows.Add(windowsToAttach[0]);
-            attachedWindows.Add(windowsToAttach[1]);
+            if (windowsToAttach[0] == windowsToAttach[1])
+            {
 
-            editorNodes[windowsToAttach[0]].dialogue.Choices.Add(windowsToAttach[1]);
-            windowsToAttach = new List<int>();
+                windowsToAttach = new List<int>();
+            }
+            else
+            {
+                attachedWindows.Add(new Pairs(windowsToAttach[0], windowsToAttach[1]));
+                editorNodes[windowsToAttach[0]].dialogue.Choices.Add(windowsToAttach[1]);
+                editorNodes[windowsToAttach[0]].sent = true;
+                windowsToAttach = new List<int>();
+            }
+
         }
 
-        if (attachedWindows.Count >= 2)
+        if (attachedWindows.Count >= 1)
         {
-            for (int i = 0; i < attachedWindows.Count; i += 2)
+            for (int i = 0; i < attachedWindows.Count; i++)
             {
-                DrawNodeCurve(editorNodes[attachedWindows[i]].rect, editorNodes[attachedWindows[i + 1]].rect);
+                //Debug.Log("Parent : " + attachedWindows[i].parent + "/ Child : " + attachedWindows[i].child);
+                DrawNodeCurve(editorNodes[attachedWindows[i].parent].rect, editorNodes[attachedWindows[i].child].rect);
                 //Store the conection in choices list
             }
         }
@@ -113,6 +122,7 @@ public class DialogueEditor : EditorWindow
         {
             editorNodes[i].rect = GUI.Window(i, editorNodes[i].rect, DrawNodeWindow, "Window " + i);
         }
+
 
         EndWindows();
         GUI.EndGroup();
@@ -128,20 +138,55 @@ public class DialogueEditor : EditorWindow
         scrolls[id] = GUILayout.BeginScrollView(scrolls[id]);
         Dialogue d = editorNodes[id].dialogue;
 
-        d.HasChoices = EditorGUILayout.Toggle("Choice Available : ", d.HasChoices);
-        if (d.HasChoices)
+        d.PlayerChoice = EditorGUILayout.Toggle("Choice Available : ", d.PlayerChoice);
+        if (d.PlayerChoice)
         {
-            if (GUILayout.Button("Attach"))
+            d.HasContinuation = true;
+        }
+        else
+        {
+            d.HasContinuation = EditorGUILayout.Toggle("Continuation Available : ", d.HasContinuation);
+        }
+        if (d.HasContinuation)
+        {
+            if (d.PlayerChoice)
             {
-                windowsToAttach.Add(id);
+                if (GUILayout.Button("Attach"))
+                {
+                    windowsToAttach.Add(id);
+                }
             }
-            foreach (int i in d.Choices)
+            else
             {
+                if (d.Choices.Count < 1)
+                {
+                    if (GUILayout.Button("Attach"))
+                    {
+                        windowsToAttach.Add(id);
+
+                    }
+                        
+                }
+            }
+            for (int i = 0; i < d.Choices.Count; i++)
+            {
+
+
                 EditorGUILayout.LabelField("Connected to node #" + i);
+
                 if (GUILayout.Button("X"))
                 {
+                    for (int p = 0; p < attachedWindows.Count; p++)
+                    {
+                        if (attachedWindows[p].parent == id)
+                        {
+                            attachedWindows.Remove(attachedWindows[p]);
+                        }
+                    }
                     d.Choices.Remove(i);
                     editorNodes[i].recieved = false;
+                    editorNodes[i].sent = false;
+
                 }
             }
         }
@@ -174,7 +219,40 @@ public class DialogueEditor : EditorWindow
             t.LanguageName = EditorGUILayout.TextField("Language Name :", t.LanguageName);
             t.Info = EditorGUILayout.TextField("Text :", t.Info);
             t.VoiceOver = (AudioClip)EditorGUILayout.ObjectField("Voice over for " + t.LanguageName, t.VoiceOver, typeof(AudioClip), false);
+            if (GUILayout.Button("Remove this Language"))
+            {
+                d.Speech.Remove(t);
+            }
 
+        }
+        if (GUILayout.Button("Delete the node"))
+        {
+            windowsToAttach = new List<int>();
+
+            for (int i = 0; i < attachedWindows.Count; i++)
+            {
+                if (attachedWindows[i].parent == id)
+                {
+                    attachedWindows.Remove(attachedWindows[i]);
+                }
+                else if (attachedWindows[i].child == id)
+                {
+                    attachedWindows.Remove(attachedWindows[i]);
+                }
+            }
+
+
+            for (int n = 0; n < editorNodes.Count; n++)
+            {
+                for (int c = 0; c < editorNodes[n].dialogue.Choices.Count; c++)
+                {
+                    if (editorNodes[n].dialogue.Choices[c] == id)
+                    {
+                        editorNodes[n].dialogue.Choices.Remove(id);
+                    }
+                }
+            }
+            editorNodes.Remove(editorNodes[id]);
         }
 
         GUILayout.EndScrollView();
@@ -209,11 +287,15 @@ public class DialogueEditor : EditorWindow
         GUILayout.Label("Dialogue Count - " + editorNodes.Count);
     }
 
+
+    /// <summary>
+    /// These are all the top button options 
+    /// </summary>
     private void ButtonOptions()
     {
         if (GUILayout.Button("Add dialogue"))
         {
-            editorNodes.Add(new EditorNode(new Rect(Mathf.Abs(panX) + 50, Mathf.Abs(panY) + 50, 300, 400), new Dialogue()));
+            editorNodes.Add(new EditorNode(new Rect(Mathf.Abs(panX) + 50, Mathf.Abs(panY) + 50, 300, 200), new Dialogue()));
             scrolls.Add(new Vector2());
         }
         if (GUILayout.Button("Save"))
@@ -253,12 +335,36 @@ public class DialogueEditor : EditorWindow
                 Debug.Log("Give the tree a name to save it");
             }
         }
+
+        if (GUILayout.RepeatButton("^", GUILayout.Width(100f)))
+        {
+            panY -= 1;
+            Repaint();
+        }
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.RepeatButton("<", GUILayout.Width(50f)))
+        {
+            panX -= 1;
+            Repaint();
+        }
+
+        if (GUILayout.RepeatButton(">", GUILayout.Width(50f)))
+        {
+            panX += 1;
+            Repaint();
+        }
+        EditorGUILayout.EndHorizontal();
+        if (GUILayout.RepeatButton("v", GUILayout.Width(100f)))
+        {
+            panY += 1;
+            Repaint();
+        }
     }
 
     private void displayList()
     {
-        EditorGUILayout.BeginVertical();
-        scrollList = EditorGUILayout.BeginScrollView(scrollList, GUILayout.Width(100f));
+        scrollList = EditorGUILayout.BeginScrollView(scrollList, GUILayout.Width(200f), GUILayout.ExpandHeight(true));
         if (trees.Count <= 0)
         {
             GUILayout.Label("No Trees make one");
@@ -272,9 +378,12 @@ public class DialogueEditor : EditorWindow
                 {
                     tempTree = t;
                     editorNodes = new List<EditorNode>();
+                    scrolls = new List<Vector2>();
+                    int posMultipier = 0;
                     foreach (Dialogue d in t.Dialogues)
                     {
-                        editorNodes.Add(new EditorNode(new Rect(100, 100, 300, 400), d));
+                        posMultipier++;
+                        editorNodes.Add(new EditorNode(new Rect(100 + (posMultipier * 50), 100 + (posMultipier * 50), 300, 200), d));
                         scrolls.Add(new Vector2());
                     }
                     editingTree = true;
@@ -282,9 +391,9 @@ public class DialogueEditor : EditorWindow
             }
         }
 
-        EditorGUILayout.EndScrollView();
+
         GUILayout.Label("#" + trees.Count + " Trees");
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndScrollView();
     }
 
     //search specific directory for all the character files

@@ -11,11 +11,13 @@ public interface IDialogue
         set;
     }
     [SerializeField]
-    bool HasChoices
+    bool PlayerChoice
     {
         get;
         set;
     }
+    [SerializeField]
+    bool HasContinuation { get; set; }
     [SerializeField]
     List<GameText> Speech
     {

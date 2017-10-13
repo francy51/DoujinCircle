@@ -9,7 +9,7 @@ public class Dialogue : IDialogue
     [SerializeField]
     int id; // Do I need this can I use the list id instead??
     [SerializeField]
-    bool hasChoices;
+    bool playerChoice;
     [SerializeField]
     List<GameText> speech;
     [SerializeField]
@@ -22,11 +22,13 @@ public class Dialogue : IDialogue
     AudioClip sfx;
     [SerializeField]
     DialogueActions action;
+    [SerializeField]
+    bool hasContinuation;
     
     public Dialogue()
     {
         id = 0;
-        hasChoices = false;
+        playerChoice = false;
         speech = new List<GameText>();
         choices = new List<int>();
         action = DialogueActions.None;
@@ -45,16 +47,16 @@ public class Dialogue : IDialogue
         }
     }
 
-    public bool HasChoices
+    public bool PlayerChoice
     {
         get
         {
-            return hasChoices;
+            return playerChoice;
         }
 
         set
         {
-            hasChoices = value;
+            playerChoice = value;
         }
     }
 
@@ -135,6 +137,19 @@ public class Dialogue : IDialogue
         set
         {
             action = value;
+        }
+    }
+
+    public bool HasContinuation
+    {
+        get
+        {
+            return hasContinuation;
+        }
+
+        set
+        {
+            hasContinuation = value;
         }
     }
 }

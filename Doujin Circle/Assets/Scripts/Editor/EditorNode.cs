@@ -11,6 +11,8 @@ public class EditorNode  {
     public Dialogue dialogue;
     [SerializeField]
     public bool recieved;
+    [SerializeField]
+    public bool sent;
 
     public EditorNode(Rect rect, Dialogue dialogue)
     {

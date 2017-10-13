@@ -1,0 +1,137 @@
+{
+    "treeName": "test1SystemV1",
+    "sceneID": 0,
+    "dialogues": [
+        {
+            "id": 0,
+            "hasChoices": true,
+            "speech": [
+                {
+                    "languageName": "English",
+                    "description": "Hey are you there?",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 0,
+            "choices": [
+                1,
+                2
+            ],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0
+        },
+        {
+            "id": 0,
+            "hasChoices": true,
+            "speech": [
+                {
+                    "languageName": "English",
+                    "description": "What...",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 1,
+            "choices": [
+                3
+            ],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0
+        },
+        {
+            "id": 0,
+            "hasChoices": true,
+            "speech": [
+                {
+                    "languageName": "English",
+                    "description": "Leave...",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 1,
+            "choices": [
+                4
+            ],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0
+        },
+        {
+            "id": 0,
+            "hasChoices": false,
+            "speech": [
+                {
+                    "languageName": "English",
+                    "description": "Hey I'm coming in...",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 0,
+            "choices": [],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0
+        },
+        {
+            "id": 0,
+            "hasChoices": true,
+            "speech": [
+                {
+                    "languageName": "English",
+                    "description": "Why... Whats wrong?",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 0,
+            "choices": [
+                5
+            ],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0
+        },
+        {
+            "id": 0,
+            "hasChoices": true,
+            "speech": [
+                {
+                    "languageName": "English",
+                    "description": "Just let me sleep!",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 1,
+            "choices": [
+                3
+            ],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0
+        }
+    ]
+}
