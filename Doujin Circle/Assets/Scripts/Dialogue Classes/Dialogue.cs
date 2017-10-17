@@ -24,6 +24,8 @@ public class Dialogue : IDialogue
     DialogueActions action;
     [SerializeField]
     bool hasContinuation;
+    [SerializeField]
+    bool isChoice;
     
     public Dialogue()
     {
@@ -150,6 +152,19 @@ public class Dialogue : IDialogue
         set
         {
             hasContinuation = value;
+        }
+    }
+
+    public bool IsChoice
+    {
+        get
+        {
+            return isChoice;
+        }
+
+        set
+        {
+            isChoice = value;
         }
     }
 }

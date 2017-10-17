@@ -46,6 +46,8 @@ public interface IDialogue
     AudioClip SFX { get; set; }
     [SerializeField]
     DialogueActions Action { get; set; }
+    [SerializeField]
+    bool IsChoice { get; set; }
 
 
 

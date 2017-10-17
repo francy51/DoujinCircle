@@ -56,7 +56,7 @@ public class CharacterEditor : EditorWindow
             scrolLanguages = EditorGUILayout.BeginScrollView(scrolLanguages);
             for (int i = 0; i < tempCharacter.Languages.Count; i++)
             {
-                tempCharacter.Languages[i].LanguageName = EditorGUILayout.TextField("Languge Name : ", tempCharacter.Languages[i].LanguageName);
+                tempCharacter.Languages[i].LanguageName = (Language)EditorGUILayout.EnumPopup("Languge Name : ", tempCharacter.Languages[i].LanguageName);
                 tempCharacter.Languages[i].Info = EditorGUILayout.TextField("Info :",tempCharacter.Languages[i].Info,GUILayout.Height(200f));
                 tempCharacter.Languages[i].VoiceOver = (AudioClip)EditorGUILayout.ObjectField("Voice over for " + tempCharacter.Languages[i].LanguageName, tempCharacter.Languages[i].VoiceOver, typeof(AudioClip), false);
             }

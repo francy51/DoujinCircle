@@ -92,7 +92,6 @@ public class DialogueEditor : EditorWindow
         {
             if (windowsToAttach[0] == windowsToAttach[1])
             {
-
                 windowsToAttach = new List<int>();
             }
             else
@@ -137,78 +136,56 @@ public class DialogueEditor : EditorWindow
 
         scrolls[id] = GUILayout.BeginScrollView(scrolls[id]);
         Dialogue d = editorNodes[id].dialogue;
-
-        d.PlayerChoice = EditorGUILayout.Toggle("Choice Available : ", d.PlayerChoice);
-        if (d.PlayerChoice)
+        if (d.IsChoice)
         {
-            d.HasContinuation = true;
+            isChoice(d, id);
         }
         else
         {
-            d.HasContinuation = EditorGUILayout.Toggle("Continuation Available : ", d.HasContinuation);
+            isNpcDialogue(d, id);
         }
-        if (d.HasContinuation)
+
+        GUILayout.EndScrollView();
+        GUI.DragWindow();
+    }
+
+    private void isChoice(Dialogue d, int id)
+    {
+        d.HasContinuation = true;
+
+        if (d.Choices.Count < 1)
         {
-            if (d.PlayerChoice)
+            if (GUILayout.Button("Attach"))
             {
-                if (GUILayout.Button("Attach"))
-                {
-                    windowsToAttach.Add(id);
-                }
-            }
-            else
-            {
-                if (d.Choices.Count < 1)
-                {
-                    if (GUILayout.Button("Attach"))
-                    {
-                        windowsToAttach.Add(id);
-
-                    }
-                        
-                }
-            }
-            for (int i = 0; i < d.Choices.Count; i++)
-            {
-
-
-                EditorGUILayout.LabelField("Connected to node #" + i);
-
-                if (GUILayout.Button("X"))
-                {
-                    for (int p = 0; p < attachedWindows.Count; p++)
-                    {
-                        if (attachedWindows[p].parent == id)
-                        {
-                            attachedWindows.Remove(attachedWindows[p]);
-                        }
-                    }
-                    d.Choices.Remove(i);
-                    editorNodes[i].recieved = false;
-                    editorNodes[i].sent = false;
-
-                }
-            }
-        }
-        else
-        {
-            if (GUILayout.Button("End Node"))
-            {
-
-                editorNodes[id].recieved = true;
                 windowsToAttach.Add(id);
-                d.Choices = new List<int>();
+
+            }
+
+        }
+        for (int i = 0; i < d.Choices.Count; i++)
+        {
+
+
+            EditorGUILayout.LabelField("Connected to node #" + d.Choices[i]);
+
+            if (GUILayout.Button("X"))
+            {
+                for (int p = 0; p < attachedWindows.Count; p++)
+                {
+                    if (attachedWindows[p].parent == id)
+                    {
+                        attachedWindows.Remove(attachedWindows[p]);
+                    }
+                }
+                d.Choices.Remove(i);
+                editorNodes[i].recieved = false;
+                editorNodes[i].sent = false;
+
             }
         }
-        d.Character = EditorGUILayout.Popup("Character ID : ", d.Character, Option);
-        string[] poses = new string[characterList[d.Character].Poses.Count];
-        for (int i = 0; i < characterList[d.Character].Poses.Count; i++)
-        {
-            poses[i] = characterList[d.Character].Poses[i].name;
-        }
-        d.DisplayedPoseID = EditorGUILayout.Popup("Sprite Options : ", d.DisplayedPoseID, poses);
+
         d.SFX = (AudioClip)EditorGUILayout.ObjectField("SFX : ", d.SFX, typeof(AudioClip), false);
-        d.Action = (DialogueActions)EditorGUILayout.EnumMaskField("Action : ", d.Action);
+        d.Action = (DialogueActions)EditorGUILayout.EnumPopup("Action : ", d.Action);
 
         if (GUILayout.Button("Add Language."))
         {
@@ -216,7 +193,7 @@ public class DialogueEditor : EditorWindow
         }
         foreach (GameText t in d.Speech)
         {
-            t.LanguageName = EditorGUILayout.TextField("Language Name :", t.LanguageName);
+            t.LanguageName = (Language)EditorGUILayout.EnumPopup("Language Name :", t.LanguageName);
             t.Info = EditorGUILayout.TextField("Text :", t.Info);
             t.VoiceOver = (AudioClip)EditorGUILayout.ObjectField("Voice over for " + t.LanguageName, t.VoiceOver, typeof(AudioClip), false);
             if (GUILayout.Button("Remove this Language"))
@@ -255,8 +232,126 @@ public class DialogueEditor : EditorWindow
             editorNodes.Remove(editorNodes[id]);
         }
 
-        GUILayout.EndScrollView();
-        GUI.DragWindow();
+    }
+
+    void isNpcDialogue(Dialogue d, int id)
+    {
+        d.PlayerChoice = EditorGUILayout.Toggle("Choice Available : ", d.PlayerChoice);
+        if (d.PlayerChoice)
+        {
+            d.HasContinuation = true;
+        }
+        else
+        {
+            d.HasContinuation = EditorGUILayout.Toggle("Continuation Available : ", d.HasContinuation);
+        }
+        if (d.HasContinuation)
+        {
+            if (d.PlayerChoice)
+            {
+                if (GUILayout.Button("Attach"))
+                {
+                    windowsToAttach.Add(id);
+                }
+            }
+            else
+            {
+                if (d.Choices.Count < 1)
+                {
+                    if (GUILayout.Button("Attach"))
+                    {
+                        windowsToAttach.Add(id);
+
+                    }
+
+                }
+            }
+            for (int i = 0; i < d.Choices.Count; i++)
+            {
+                EditorGUILayout.LabelField("Connected to node #" + d.Choices[i]);
+                editorNodes[d.Choices[i]].dialogue.IsChoice = true;
+                if (GUILayout.Button("X"))
+                {
+                    for (int p = 0; p < attachedWindows.Count; p++)
+                    {
+                        if (attachedWindows[p].parent == id)
+                        {
+                            editorNodes[d.Choices[i]].dialogue.IsChoice = false;
+                            attachedWindows.Remove(attachedWindows[p]);
+                        }
+                    }
+                    d.Choices.Remove(i);
+                    editorNodes[i].recieved = false;
+                    editorNodes[i].sent = false;
+
+                }
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("End Node"))
+            {
+
+                editorNodes[id].recieved = true;
+                windowsToAttach.Add(id);
+                d.Choices = new List<int>();
+            }
+        }
+        d.Character = EditorGUILayout.Popup("Character ID : ", d.Character, Option);
+        string[] poses = new string[characterList[d.Character].Poses.Count];
+        for (int i = 0; i < characterList[d.Character].Poses.Count; i++)
+        {
+            poses[i] = characterList[d.Character].Poses[i].name;
+        }
+        d.DisplayedPoseID = EditorGUILayout.Popup("Sprite Options : ", d.DisplayedPoseID, poses);
+        d.SFX = (AudioClip)EditorGUILayout.ObjectField("SFX : ", d.SFX, typeof(AudioClip), false);
+        d.Action = (DialogueActions)EditorGUILayout.EnumMaskField("Action : ", d.Action);
+
+        if (GUILayout.Button("Add Language."))
+        {
+            d.Speech.Add(new GameText());
+        }
+        foreach (GameText t in d.Speech)
+        {
+            t.LanguageName = (Language)EditorGUILayout.EnumPopup("Language Name :", t.LanguageName);
+            t.Info = EditorGUILayout.TextField("Text :", t.Info);
+            t.VoiceOver = (AudioClip)EditorGUILayout.ObjectField("Voice over for " + t.LanguageName, t.VoiceOver, typeof(AudioClip), false);
+            if (GUILayout.Button("Remove this Language"))
+            {
+                d.Speech.Remove(t);
+            }
+
+        }
+        if (GUILayout.Button("Delete the node"))
+        {
+            windowsToAttach = new List<int>();
+
+            for (int i = 0; i < attachedWindows.Count; i++)
+            {
+                if (attachedWindows[i].parent == id)
+                {
+                    attachedWindows.Remove(attachedWindows[i]);
+                }
+                else if (attachedWindows[i].child == id)
+                {
+                    attachedWindows.Remove(attachedWindows[i]);
+                }
+            }
+
+
+            for (int n = 0; n < editorNodes.Count; n++)
+            {
+                for (int c = 0; c < editorNodes[n].dialogue.Choices.Count; c++)
+                {
+                    if (editorNodes[n].dialogue.Choices[c] == id)
+                    {
+                        editorNodes[n].dialogue.Choices.Remove(id);
+                    }
+                }
+            }
+            editorNodes.Remove(editorNodes[id]);
+        }
+
     }
 
     /// <summary>
@@ -379,11 +474,18 @@ public class DialogueEditor : EditorWindow
                     tempTree = t;
                     editorNodes = new List<EditorNode>();
                     scrolls = new List<Vector2>();
+                    attachedWindows = new List<Pairs>();
                     int posMultipier = 0;
-                    foreach (Dialogue d in t.Dialogues)
+                    for (int i = 0; i < t.Dialogues.Count; i++)
                     {
                         posMultipier++;
-                        editorNodes.Add(new EditorNode(new Rect(100 + (posMultipier * 50), 100 + (posMultipier * 50), 300, 200), d));
+                        editorNodes.Add(new EditorNode(new Rect(100 + (posMultipier * 50), 100 + (posMultipier * 50), 300, 200), t.Dialogues[i]));
+                        foreach (int link in t.Dialogues[i].Choices)
+                        {
+                            attachedWindows.Add(new Pairs(i, link));
+                            //editorNodes[i].dialogue.Choices.Add(link);
+                            //editorNodes[i].sent = true;
+                        }
                         scrolls.Add(new Vector2());
                     }
                     editingTree = true;

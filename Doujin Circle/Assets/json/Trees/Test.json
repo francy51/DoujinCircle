@@ -1,14 +1,14 @@
 {
-    "treeName": "test1SystemV1",
+    "treeName": "Test",
     "sceneID": 0,
     "dialogues": [
         {
             "id": 0,
-            "hasChoices": true,
+            "playerChoice": true,
             "speech": [
                 {
-                    "languageName": "English",
-                    "description": "Hey are you there?",
+                    "lang": 0,
+                    "description": "This is a choice.",
                     "voiceOver": {
                         "instanceID": 0
                     }
@@ -17,65 +17,48 @@
             "character": 0,
             "choices": [
                 1,
-                2
-            ],
-            "displayedPoseID": 0,
-            "sfx": {
-                "instanceID": 0
-            },
-            "action": 0
-        },
-        {
-            "id": 0,
-            "hasChoices": true,
-            "speech": [
-                {
-                    "languageName": "English",
-                    "description": "What...",
-                    "voiceOver": {
-                        "instanceID": 0
-                    }
-                }
-            ],
-            "character": 1,
-            "choices": [
-                3
-            ],
-            "displayedPoseID": 0,
-            "sfx": {
-                "instanceID": 0
-            },
-            "action": 0
-        },
-        {
-            "id": 0,
-            "hasChoices": true,
-            "speech": [
-                {
-                    "languageName": "English",
-                    "description": "Leave...",
-                    "voiceOver": {
-                        "instanceID": 0
-                    }
-                }
-            ],
-            "character": 1,
-            "choices": [
+                3,
                 4
             ],
             "displayedPoseID": 0,
             "sfx": {
                 "instanceID": 0
             },
-            "action": 0
+            "action": 0,
+            "hasContinuation": true,
+            "isChoice": false
         },
         {
             "id": 0,
-            "hasChoices": false,
+            "playerChoice": false,
             "speech": [
                 {
-                    "languageName": "English",
-                    "description": "Hey I'm coming in...",
+                    "lang": 0,
+                    "description": "Choice 1",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 0,
+            "choices": [
+                2
+            ],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0,
+            "hasContinuation": true,
+            "isChoice": true
+        },
+        {
+            "id": 0,
+            "playerChoice": false,
+            "speech": [
+                {
+                    "lang": 0,
+                    "description": "End 1",
                     "voiceOver": {
                         "instanceID": 0
                     }
@@ -87,15 +70,17 @@
             "sfx": {
                 "instanceID": 0
             },
-            "action": 0
+            "action": 0,
+            "hasContinuation": false,
+            "isChoice": false
         },
         {
             "id": 0,
-            "hasChoices": true,
+            "playerChoice": false,
             "speech": [
                 {
-                    "languageName": "English",
-                    "description": "Why... Whats wrong?",
+                    "lang": 0,
+                    "description": "Choice 2",
                     "voiceOver": {
                         "instanceID": 0
                     }
@@ -109,29 +94,55 @@
             "sfx": {
                 "instanceID": 0
             },
-            "action": 0
+            "action": 0,
+            "hasContinuation": true,
+            "isChoice": true
         },
         {
             "id": 0,
-            "hasChoices": true,
+            "playerChoice": false,
             "speech": [
                 {
-                    "languageName": "English",
-                    "description": "Just let me sleep!",
+                    "lang": 0,
+                    "description": "Choice 3",
                     "voiceOver": {
                         "instanceID": 0
                     }
                 }
             ],
-            "character": 1,
+            "character": 0,
             "choices": [
-                3
+                5
             ],
             "displayedPoseID": 0,
             "sfx": {
                 "instanceID": 0
             },
-            "action": 0
+            "action": 0,
+            "hasContinuation": true,
+            "isChoice": true
+        },
+        {
+            "id": 0,
+            "playerChoice": false,
+            "speech": [
+                {
+                    "lang": 0,
+                    "description": "Shared End node",
+                    "voiceOver": {
+                        "instanceID": 0
+                    }
+                }
+            ],
+            "character": 0,
+            "choices": [],
+            "displayedPoseID": 0,
+            "sfx": {
+                "instanceID": 0
+            },
+            "action": 0,
+            "hasContinuation": false,
+            "isChoice": false
         }
     ]
 }

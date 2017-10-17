@@ -7,7 +7,7 @@ public class GameText
 {
 
     [SerializeField]
-    string languageName;
+    Language lang;
     [SerializeField]
     string description;
     [SerializeField]
@@ -15,22 +15,22 @@ public class GameText
 
     public GameText()
     {
-        languageName = "";
+        lang = Language.English;
         description = "";
         voiceOver = new AudioClip();
     }
 
 
-    public string LanguageName
+    public Language LanguageName
     {
         get
         {
-            return languageName;
+            return lang;
         }
 
         set
         {
-            languageName = value;
+            lang = value;
         }
     }
 
