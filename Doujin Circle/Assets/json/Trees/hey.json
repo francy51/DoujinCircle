@@ -1,0 +1,76 @@
+{
+    "MonoBehaviour": {
+        "m_Enabled": true,
+        "m_EditorHideFlags": 0,
+        "m_Name": "",
+        "m_EditorClassIdentifier": "",
+        "Start": {
+            "Char": {
+                "instanceID": 0
+            },
+            "Response": {
+                "UseConstant": true,
+                "ConstantValue": "asd",
+                "Variable": {
+                    "instanceID": 0
+                }
+            },
+            "PlayerResponse": {
+                "UseConstant": true,
+                "ConstantValue": "asd",
+                "Variable": {
+                    "instanceID": 0
+                }
+            },
+            "FollowUp": [
+                {
+                    "Char": {
+                        "instanceID": 0
+                    },
+                    "Response": {
+                        "UseConstant": true,
+                        "ConstantValue": "",
+                        "Variable": {
+                            "instanceID": 0
+                        }
+                    },
+                    "PlayerResponse": {
+                        "UseConstant": true,
+                        "ConstantValue": "zcx",
+                        "Variable": {
+                            "instanceID": 0
+                        }
+                    },
+                    "FollowUp": [],
+                    "Pose": {
+                        "PoseName": "",
+                        "UseConstant": true,
+                        "ConstantValue": {
+                            "instanceID": 0
+                        },
+                        "Variable": {
+                            "instanceID": 0
+                        }
+                    }
+                }
+            ],
+            "Pose": {
+                "PoseName": "",
+                "UseConstant": true,
+                "ConstantValue": {
+                    "instanceID": 0
+                },
+                "Variable": {
+                    "instanceID": 0
+                }
+            }
+        },
+        "TreeName": {
+            "UseConstant": true,
+            "ConstantValue": "hey",
+            "Variable": {
+                "instanceID": 0
+            }
+        }
+    }
+}

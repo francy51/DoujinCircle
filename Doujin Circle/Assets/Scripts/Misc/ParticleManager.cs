@@ -28,12 +28,7 @@ public class ParticleManager : MonoBehaviour
         em.rateOverTime = new ParticleSystem.MinMaxCurve(particlesPerS);
     }
 
-    public void StartNewGame()
-    {
-        ParticleIncreaseEffect();
 
-        StartCoroutine(startNewGame());
-    }
 
     public void ContinueGameInProgress()
     {
@@ -42,26 +37,7 @@ public class ParticleManager : MonoBehaviour
 
     }
 
-    //each yield adds 100 more particles to the game so that we get the overlap effect
-    IEnumerator startNewGame()
-    {
-        GameObject.Find("Global Managers").GetComponent<DialogueManager>().startTree(0);
-        yield return new WaitForSeconds(1);
-        particlesPerS += 100;
-        ParticleIncreaseEffect();
-        yield return new WaitForSeconds(1);
-        particlesPerS += 100;
-        ParticleIncreaseEffect();
-        yield return new WaitForSeconds(1);
-        particlesPerS += 100;
-        ParticleIncreaseEffect();
-        yield return new WaitForSeconds(1);
-        particlesPerS += 100;
-        ParticleIncreaseEffect();
-        yield return new WaitForSeconds(1);
-        //then change scene after you wait
 
-    }
 
     IEnumerator continueGameInProgress()
     {

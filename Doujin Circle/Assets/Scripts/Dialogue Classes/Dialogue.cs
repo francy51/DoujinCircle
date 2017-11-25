@@ -2,169 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Dialogue : IDialogue
+namespace proj.dialogue
 {
-
-    [SerializeField]
-    int id; // Do I need this can I use the list id instead??
-    [SerializeField]
-    bool playerChoice;
-    [SerializeField]
-    List<GameText> speech;
-    [SerializeField]
-    int character;
-    [SerializeField]
-    List<int> choices;
-    [SerializeField]
-    int displayedPoseID;
-    [SerializeField]
-    AudioClip sfx;
-    [SerializeField]
-    DialogueActions action;
-    [SerializeField]
-    bool hasContinuation;
-    [SerializeField]
-    bool isChoice;
-    
-    public Dialogue()
+    [System.Serializable]
+    public class Dialogue
     {
-        id = 0;
-        playerChoice = false;
-        speech = new List<GameText>();
-        choices = new List<int>();
-        action = DialogueActions.None;
-    }
+        [Tooltip("This is the character that says the line")]
+        [SerializeField]
+        public Character Char;
+        [Tooltip("This is the response that the character gives if the player picks this option")]
+        [SerializeField]
+        public StringReference Response;
+        [Tooltip("This is what apears on the buttons aka the players response. If this is selected this will then trigger the characters response")]
+        [SerializeField]
+        public StringReference PlayerResponse;
+        [Tooltip("Possible next routes of action that the character can take")]
+        [SerializeField]
+        public List<Dialogue> FollowUp;
+        [Tooltip("The pose to be displayed")]
+        [SerializeField]
+        public CharacterImageReference Pose;
 
-    public int ID
-    {
-        get
+        public Dialogue()
         {
-            return id;
-        }
-
-        set
-        {
-            id = value;
+            Char = null;
+            Response = new StringReference();
+            PlayerResponse = new StringReference();
+            FollowUp = new List<Dialogue>();
+            Pose = new CharacterImageReference();
         }
     }
 
-    public bool PlayerChoice
-    {
-        get
-        {
-            return playerChoice;
-        }
-
-        set
-        {
-            playerChoice = value;
-        }
-    }
-
-    public List<GameText> Speech
-    {
-        get
-        {
-            return speech;
-        }
-
-        set
-        {
-            speech = value;
-        }
-    }
-
-
-
-    public int Character
-    {
-        get
-        {
-            return character;
-        }
-
-        set
-        {
-            character = value;
-        }
-    }
-
-    public List<int> Choices
-    {
-        get
-        {
-            return choices;
-        }
-
-        set
-        {
-            choices = value;
-        }
-    }
-
-    public int DisplayedPoseID
-    {
-        get
-        {
-            return displayedPoseID;
-        }
-
-        set
-        {
-            displayedPoseID = value;
-        }
-    }
-
-    public AudioClip SFX
-    {
-        get
-        {
-            return sfx;
-        }
-
-        set
-        {
-            sfx = value;
-        }
-    }
-
-    public DialogueActions Action
-    {
-        get
-        {
-            return action;
-        }
-
-        set
-        {
-            action = value;
-        }
-    }
-
-    public bool HasContinuation
-    {
-        get
-        {
-            return hasContinuation;
-        }
-
-        set
-        {
-            hasContinuation = value;
-        }
-    }
-
-    public bool IsChoice
-    {
-        get
-        {
-            return isChoice;
-        }
-
-        set
-        {
-            isChoice = value;
-        }
-    }
 }
