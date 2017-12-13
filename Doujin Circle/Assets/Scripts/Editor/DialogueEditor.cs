@@ -8,44 +8,44 @@ using System;
 
 namespace proj.editor
 {
-	
-	public class DialogueEditor : EditorWindow
-	{
+
+    public class DialogueEditor : EditorWindow
+    {
 
         Vector2 scroll;
-		DialogueTreeVariable tempTree;
-		List<DialogueTreeVariable> trees;
-		bool editing;
-       
+        DialogueTreeVariable tempTree;
+        List<DialogueTreeVariable> trees;
+        bool editing;
 
-		[MenuItem ("Editors/Dialogue")]
-		static void Init ()
-		{
-			// Get existing open window or if none, make a new one:
-			DialogueEditor window = (DialogueEditor)EditorWindow.GetWindow (typeof(DialogueEditor));
-			window.titleContent.text = "Dialogue Editor";
-			window.Show ();
 
-		}
+        [MenuItem("Editors/Dialogue")]
+        static void Init()
+        {
+            // Get existing open window or if none, make a new one:
+            DialogueEditor window = (DialogueEditor)EditorWindow.GetWindow(typeof(DialogueEditor));
+            window.titleContent.text = "Dialogue Editor";
+            window.Show();
 
-		void OnEnable ()
-		{
-			LoadTrees ();
-		}
+        }
 
-		void OnGUI ()
-		{
-          
-			EditorGUILayout.BeginHorizontal ("Box");
-			TreeList ();
+        void OnEnable()
+        {
+            LoadTrees();
+        }
+
+        void OnGUI()
+        {
+
+            EditorGUILayout.BeginHorizontal("Box");
+            TreeList();
             MainArea();
 
-			EditorGUILayout.EndHorizontal ();
-		}
+            EditorGUILayout.EndHorizontal();
+        }
 
         void MainArea()
         {
-            scroll = EditorGUILayout.BeginScrollView(scroll,"Box");
+            scroll = EditorGUILayout.BeginScrollView(scroll, "Box");
             GUILayout.Label("The Editor");
             GUILayout.Label("WARNING : if you are editing an already existing tree then don't change the name otherwise it will create a new one.");
             if (GUILayout.Button("New Tree"))
@@ -71,6 +71,8 @@ namespace proj.editor
         private void DisplayTreeDetails()
         {
             tempTree.TreeName.Value = EditorGUILayout.TextField("Tree Name - ", tempTree.TreeName.Value);
+            GUILayout.Label(" *Check That you typed the name correctly otherwise the game won't be able to find the next tree... TLDR; IT WON'T WORK IF IT'S SPELLED WRONG*");
+            tempTree.NextTree.Value = EditorGUILayout.TextField("Next Tree Name - ", tempTree.NextTree.Value);
             if (tempTree.Start == null)
             {
                 if (GUILayout.Button("Add a start"))
@@ -87,8 +89,8 @@ namespace proj.editor
         }
 
         private void DisplayDialogue(Dialogue d)
-        {            
-            d.Char = (Character)EditorGUILayout.ObjectField(d.Char,typeof(Character));
+        {
+            d.Char = (Character)EditorGUILayout.ObjectField(d.Char, typeof(Character));
             if (d.Char != null && d.Char.Poses.Count > 0)
             {
                 string[] poses = new string[d.Char.Poses.Count];
@@ -111,8 +113,8 @@ namespace proj.editor
 
             d.Response.Value = EditorGUILayout.TextField("Response - ", d.Response.Value);
             d.PlayerResponse.Value = EditorGUILayout.TextField("PlayerResponse - ", d.PlayerResponse.Value);
-        
-           
+
+
 
 
             if (GUILayout.Button("Add Extra Dialogue"))
@@ -139,28 +141,29 @@ namespace proj.editor
         /// <summary>
         /// Displays a list of all trees
         /// </summary>
-        void TreeList ()
-		{
+        void TreeList()
+        {
             EditorGUILayout.BeginVertical("Box", GUILayout.Width(100f));
-            if (trees.Count > 0) 
-			{
-				
-				foreach (DialogueTreeVariable t in trees) 
-				{
-					if (GUILayout.Button (t.TreeName.Value)) 
-					{
-						Debug.Log (t.TreeName.Value);
+            if (trees.Count > 0)
+            {
+
+                foreach (DialogueTreeVariable t in trees)
+                {
+                    if (GUILayout.Button(t.TreeName.Value))
+                    {
+                        Debug.Log(t.TreeName.Value);
                         tempTree = t;
                         editing = true;
-					}
-				}
+                    }
+                }
                 EditorGUILayout.LabelField(trees.Count.ToString());
-         
-			} else 
-			{
-				GUILayout.Label ("No trees yet");
-				Debug.Log ("No Trees Yet");
-			}
+
+            }
+            else
+            {
+                GUILayout.Label("No trees yet");
+                Debug.Log("No Trees Yet");
+            }
             if (GUILayout.Button("REFRESH"))
             {
                 LoadTrees();
@@ -172,19 +175,19 @@ namespace proj.editor
         /// <summary>
         /// Loads the tree list
         /// </summary>
-		void LoadTrees ()
-		{
-			trees = new List<DialogueTreeVariable> ();
-			string[] files = Directory.GetFiles (Application.dataPath + "/json/Trees/", "*.json");
-			Debug.Log (Application.dataPath + "/json/Trees/");
-			for (int i = 0; i < files.Length; i++) 
-			{
-				string json = File.ReadAllText (files [i]);
+		void LoadTrees()
+        {
+            trees = new List<DialogueTreeVariable>();
+            string[] files = Directory.GetFiles(Application.dataPath + "/json/Trees/", "*.json");
+            Debug.Log(Application.dataPath + "/json/Trees/");
+            for (int i = 0; i < files.Length; i++)
+            {
+                string json = File.ReadAllText(files[i]);
                 trees.Add(new DialogueTreeVariable());
                 EditorJsonUtility.FromJsonOverwrite(json, trees[i]);
-				//trees.Add (JsonHelper<DialogueTreeVariable>.CreateFromJSON (json));
-			}
-		}
+                //trees.Add (JsonHelper<DialogueTreeVariable>.CreateFromJSON (json));
+            }
+        }
 
-	}
+    }
 }

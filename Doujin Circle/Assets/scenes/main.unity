@@ -3779,7 +3779,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 428168972}
-  - component: {fileID: 428168971}
   - component: {fileID: 428168970}
   m_Layer: 0
   m_Name: Global Managers
@@ -3796,32 +3795,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 428168969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dedba4ad41b6514da572f8154991ab7, type: 3}
+  m_Script: {fileID: 11500000, guid: a6922ab19bc3bcd478d8ec46d6cb33d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 555345174}
-  nameBox: {fileID: 1015049987}
-  buttons:
-  - {fileID: 1046421625}
-  - {fileID: 1717321924}
-  - {fileID: 667030559}
-  - {fileID: 1883326925}
-  dialogueBox: {fileID: 536022534}
-  langSetting: 0
-  waitForSeconds: 0.1
---- !u!114 &428168971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 428168969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d24a93d05a8f5e344948eea341c30b63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeTexture: {fileID: 2800000, guid: 145f02b99e6a10545b7808a24fa53208, type: 3}
-  fadeSpeed: 0.2
+  text: {fileID: 555345174}
+  displayText: 0
+  started: 0
+  buttons: []
+  Dialogue: {fileID: 11400000, guid: 722de6c106527854fbe810c3a086b8a2, type: 2}
 --- !u!4 &428168972
 Transform:
   m_ObjectHideFlags: 0
@@ -4989,7 +4970,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1717321922}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 428168969}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1881244836
